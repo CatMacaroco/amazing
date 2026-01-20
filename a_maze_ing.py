@@ -25,7 +25,6 @@ def main(argv: list[str]) -> int:
     print(f"  perfect: {cfg.perfect}")
     print(f"  seed: {cfg.seed}")
     print(f"  output: {cfg.output_file}")
-    print("\nNext: integrate MazeGenerator + MazeSolver (Person A).")
     return 0
 
 
