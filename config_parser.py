@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-
+# same as def __init__(self, width: int, ...)
 @dataclass(frozen=True)
 class Config:
     width: int
