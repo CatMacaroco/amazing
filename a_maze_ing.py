@@ -9,11 +9,10 @@ from visualizer import run_ui_loop
 
 
 class DummyMaze:
-    """Temporary maze for testing UI without Person A's generator."""
+    """Temporary maze for testing UI"""
     def __init__(self, width: int, height: int) -> None:
         self.width = width
         self.height = height
-        # All walls closed (15) so you can verify borders render
         self.grid = [[15 for _ in range(width)] for _ in range(height)]
 
 
@@ -29,27 +28,17 @@ def main(argv: list[str]) -> int:
         print(f"Error: {e}")
         return 1
 
-    # ---- TEMPORARY state provider (replace later with real generator/solver) ----
+    # TEMPORARY state provider (replace with real generator/solver)
     def get_state() -> tuple[object, str]:
-        # You can change the dummy maze size to cfg.width/cfg.height to test big mazes
         maze = DummyMaze(cfg.width, cfg.height)
-
-        # Dummy path just for testing overlay (may go out of bounds if width/height small)
-        # Keep it empty if you don't want overlay tests yet.
         path = ""
-
-        # Write output file every time we "generate"
         write_output(cfg.output_file, maze, cfg.entry, cfg.exit, path)
         return maze, path
-    # ---------------------------------------------------------------------------
-
-    # Launch interactive UI
     try:
         run_ui_loop(get_state, cfg.entry, cfg.exit)
     except (OSError, ValueError) as e:
         print(f"Error: {e}")
         return 1
-
     return 0
 
 
