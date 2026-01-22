@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import Callable
 
 
 NORTH = 1
@@ -59,7 +59,6 @@ def _cells_on_path(
             raise ValueError("Path goes out of bounds (solver/path mismatch)")
 
         visited.add((x, y))
-
     return visited
 
 
@@ -67,7 +66,7 @@ def render_ascii(
     maze: object,
     entry: tuple[int, int],
     exit_pos: tuple[int, int],
-    path: Optional[str] = None,
+    path: str | None = None,
     color_mode: int = 0,
 ) -> str:
     grid: list[list[int]] = getattr(maze, "grid")
@@ -77,7 +76,6 @@ def render_ascii(
     if len(grid) != height or any(len(row) != width for row in grid):
         raise ValueError("Maze grid dimensions do not match width/height")
 
-    # Basic validation
     for y in range(height):
         for x in range(width):
             cell = grid[y][x]
@@ -100,7 +98,6 @@ def render_ascii(
     lines: list[str] = []
 
     for y in range(height):
-        # Top border (NORTH)
         top_parts = ["+"]
         for x in range(width):
             cell = grid[y][x]
@@ -108,7 +105,6 @@ def render_ascii(
             top_parts.append("+")
         lines.append("".join(top_parts))
 
-        # Middle line (WEST boundaries + content + final EAST boundary)
         mid_parts: list[str] = []
         for x in range(width):
             cell = grid[y][x]
@@ -129,7 +125,6 @@ def render_ascii(
         mid_parts.append(cwall("|") if _has_wall(last_cell, EAST) else " ")
         lines.append("".join(mid_parts))
 
-    # Bottom border (SOUTH of last row)
     bottom_parts = ["+"]
     y = height - 1
     for x in range(width):
@@ -142,7 +137,6 @@ def render_ascii(
 
 
 def _clear_screen() -> None:
-    # Portable enough for Mac/Linux terminal
     os.system("cls" if os.name == "nt" else "clear")
 
 
@@ -154,7 +148,6 @@ def run_ui_loop(
     show_path = False
     color_mode = 0
 
-    # Initial generation
     maze, path = get_state()
 
     while True:

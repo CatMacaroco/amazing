@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 
 # same as def __init__(self, width: int, ...)
@@ -13,7 +12,7 @@ class Config:
     exit: tuple[int, int]
     output_file: str
     perfect: bool
-    seed: int | None
+    seed: int | None = None
 
 
 _REQUIRED_KEYS = {"WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT"}
@@ -97,7 +96,7 @@ def load_config(path: str) -> Config:
 
     perfect = _parse_bool(data["PERFECT"])
 
-    seed: Optional[int] = None
+    seed: int | None = None
     if "SEED" in data and data["SEED"].strip() != "":
         try:
             seed = int(data["SEED"])
