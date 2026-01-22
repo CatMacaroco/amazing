@@ -1,17 +1,19 @@
 from __future__ import annotations
 
-from typing import Iterable
 
-
-def _validate_maze_grid(grid: list[list[int]], width: int, height: int) -> None:
+def _validate_maze_grid(grid: list[list[int]],
+                        width: int,
+                        height: int) -> None:
     if len(grid) != height:
         raise ValueError("Grid height does not match maze.height")
     for y, row in enumerate(grid):
         if len(row) != width:
-            raise ValueError(f"Grid width does not match maze.width at row {y}")
+            raise ValueError(f"Grid width does not match "
+                             f"maze.width at row {y}")
         for x, cell in enumerate(row):
             if not isinstance(cell, int) or not (0 <= cell <= 15):
-                raise ValueError(f"Invalid cell value at ({x},{y}): {cell!r} (expected int 0..15)")
+                raise ValueError(f"Invalid cell value at ({x},{y}): {cell!r}"
+                                 f" (expected int 0..15)")
 
 
 def _format_coord(coord: tuple[int, int]) -> str:
@@ -45,7 +47,8 @@ def write_output(
     # Validate path characters (allow empty string)
     for ch in path:
         if ch not in {"N", "E", "S", "W"}:
-            raise ValueError(f"Invalid path character: {ch!r} (expected only N/E/S/W)")
+            raise ValueError(f"Invalid path character: {ch!r}"
+                             " (expected only N/E/S/W)")
 
     with open(filename, "w", encoding="utf-8") as f:
         # Maze rows

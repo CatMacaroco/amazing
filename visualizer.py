@@ -82,7 +82,8 @@ def render_ascii(
         for x in range(width):
             cell = grid[y][x]
             if not isinstance(cell, int) or not (0 <= cell <= 15):
-                raise ValueError(f"Invalid cell value at ({x},{y}): {cell!r} (expected int 0..15)")
+                raise ValueError(f"Invalid cell value at ({x},{y}): {cell!r}"
+                                 f" (expected int 0..15)")
 
     wall_color = _COLOR_PALETTE[color_mode % len(_COLOR_PALETTE)]
     style = AsciiStyle(wall_color=wall_color)
@@ -150,18 +151,6 @@ def run_ui_loop(
     entry: tuple[int, int],
     exit_pos: tuple[int, int],
 ) -> None:
-    """
-    Interactive loop.
-    - get_state() returns (maze, path) for the *current* maze.
-      When you want to regenerate, you’ll swap get_state to return a new maze/path,
-      or implement get_state() to regenerate internally on request.
-
-    Controls:
-    - r : regenerate (calls get_state again)
-    - p : toggle show path
-    - c : cycle wall color
-    - q : quit
-    """
     show_path = False
     color_mode = 0
 
@@ -170,8 +159,12 @@ def run_ui_loop(
 
     while True:
         _clear_screen()
-        print(render_ascii(maze, entry, exit_pos, path if show_path else None, color_mode))
-        print("Commands: [r] regenerate  [p] show/hide path  [c] change wall color  [q] quit")
+        print(render_ascii(maze,
+                           entry,
+                           exit_pos,
+                           path if show_path else None, color_mode))
+        print("Commands: [r] regenerate  [p] show/hide path"
+              "  [c] change wall color  [q] quit")
         cmd = input("> ").strip().lower()
 
         if cmd == "q":
